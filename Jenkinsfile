@@ -4,9 +4,11 @@ pipeline {
         choice(name: 'NUMBER',
             choices: [10,20,30,40,50,60,70,80,90],
             description: 'Select the value for F(n) for the Fibonnai sequence.')
+        /*
         string(name: 'WORKSPACE',
                defaultValue: '',
                description: 'Enter Your path here.')
+        */
     }
     options {
         buildDiscarder(logRotator(daysToKeepStr: '10', numToKeepStr: '10'))
@@ -19,7 +21,12 @@ pipeline {
     stages {
         stage('Make executable') {
             steps {
-                sh('chmod +x .${env.WORKSPACE}/scripts/fibonacci.sh')
+                sh('chmod +x ./scripts/fibonacci.sh')
+            }
+        }
+        stage('Relative path') {
+            steps {
+                sh("./scripts/fibonacci.sh ${env.NUMBER}")
             }
         }
         stage('Full path') {
